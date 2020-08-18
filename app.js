@@ -4,7 +4,7 @@ const stopButton = document.querySelector('#stop-button');
 const textInput = document.querySelector('#text');
 const speedInput = document.querySelector('#speed');
 
-
+let currentCharacter;
 
 playButton.addEventListener('click', () => {
     // console.log("1", textInput.value);
@@ -12,27 +12,33 @@ playButton.addEventListener('click', () => {
 });
 pauseButton.addEventListener('click', pauseText);
 stopButton.addEventListener('click', stopText);
+speedInput.addEventListener('input', () => {
+    stopText();
+    playText(utterance.text.substring(currentCharacter));
+});
 
+const utterance = new SpeechSynthesisUtterance()
+utterance.addEventListener('end', () => {
+    //console.log("2", textInput.value);
+    textInput.disabled = false;
+
+});
+utterance.addEventListener('boundary', e => {
+    currentCharacter = e.charIndex
+});
 function playText(text) {
     if (speechSynthesis.paused && speechSynthesis.speaking) {
         return speechSynthesis.resume();
     }
-    const utterance = new SpeechSynthesisUtterance(text)
+    if (speechSynthesis.speaking) return;
+    utterance.text = text;
     utterance.rate = speedInput.value || 1;
     utterance.pitch = 1.5;
     utterance.lang = 'pt-BR';
     utterance.volume = 1;
-
-    utterance.addEventListener('end', () => {
-        //console.log("2", textInput.value);
-        textInput.disabled = false;
-
-    });
     textInput.disabled = true;
-
     speechSynthesis.speak(utterance)
     utterance.onerror = e => console.log('Ocorreu um erro: ' + e.error);
-    console.log(utterance);
 
 };
 
