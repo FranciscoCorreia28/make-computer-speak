@@ -14,4 +14,3 @@ function playText(text) {
     utterance.rate = speedInput.value || 1;
     speechSynthesis.speak(utterance);
 };
-console.log(playButton);
