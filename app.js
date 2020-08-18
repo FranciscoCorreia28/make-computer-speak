@@ -10,9 +10,12 @@ playButton.addEventListener('click', () => {
     // console.log("1", textInput.value);
     playText(textInput.value);
 });
+pauseButton.addEventListener('click', pauseText);
 
 function playText(text) {
-
+    if (speechSynthesis.paused && speechSynthesis.speaking) {
+        return speechSynthesis.resume();
+    }
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.rate = speedInput.value || 1;
     utterance.pitch = 1.5;
@@ -32,6 +35,9 @@ function playText(text) {
 
 };
 
+function pauseText() {
+    if (speechSynthesis.speaking) speechSynthesis.pause
+};
 
 
 //To see the list of voices, use this code:
