@@ -11,6 +11,7 @@ playButton.addEventListener('click', () => {
     playText(textInput.value);
 });
 pauseButton.addEventListener('click', pauseText);
+stopButton.addEventListener('click', stopText);
 
 function playText(text) {
     if (speechSynthesis.paused && speechSynthesis.speaking) {
@@ -39,6 +40,10 @@ function pauseText() {
     if (speechSynthesis.speaking) speechSynthesis.pause
 };
 
+function stopText() {
+    speechSynthesis.resume();
+    speechSynthesis.cancel();
+}
 
 //To see the list of voices, use this code:
 /*
